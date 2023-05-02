@@ -35,8 +35,8 @@ function writeFile(sessionName, output) {
     // 将斜杠替换为短横线
     const hyphenString = sessionName.replace(/\//g, "-");
 
-    // 将空格替换为下划线
-    const outputString = hyphenString.replace(" ", "_");
+    // 将空格替换为中划线
+    const outputString = hyphenString.replace(" ", "-");
 
     const fileName = "./chatgptbox/" + outputString + ".md";
 
