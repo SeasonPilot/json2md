@@ -5,24 +5,31 @@ const fs = require("fs");
 const data = require("./conversations.json");
 
 // 定义一个异步函数，用于将导出数据转换成markdown并保存为文件
-async function saveFile(exportData) {
+async function saveFile(exportData, dateStr) {
+    // 将 dateStr 参数转换成 Date 对象
+    const date = new Date(dateStr);
 
     // 使用 forEach 两层循环获取 conversationRecords 的值
     exportData.forEach((obj) => {
-        // 定义一个空字符串，用于存储转换后的markdown内容
-        let output = "";
+        // 将 sessionName 的值转换成 Date 对象
+        const sessionDate = new Date(Date.parse(obj.sessionName));
+        // 如果 sessionDate 晚于 date 参数，就继续调用 writeFile 函数
+        if (sessionDate >= date) {
 
-        // 第一层循环遍历每个对象
-        // 遍历导出数据中的conversationRecords数组，提取每一条对话的问题和答案
-        obj.conversationRecords.forEach((data) => {
-            // 第二层循环遍历每个对象的 conversationRecords 数组
-            // 将问题和答案按照markdown的格式拼接到output字符串中，并加上分隔符
-            output += `Question:\n\n${data.question}\n\nAnswer:\n\n${data.answer}\n\n<hr/>\n\n`;
-        });
-        writeFile(obj.sessionName, output)
+            // 定义一个空字符串，用于存储转换后的markdown内容
+            let output = "";
+
+            // 第一层循环遍历每个对象
+            // 遍历导出数据中的conversationRecords数组，提取每一条对话的问题和答案
+            obj.conversationRecords.forEach((data) => {
+                // 第二层循环遍历每个对象的 conversationRecords 数组
+                // 将问题和答案按照markdown的格式拼接到output字符串中，并加上分隔符
+                output += `Question:\n\n${data.question}\n\nAnswer:\n\n${data.answer}\n\n<hr/>\n\n`;
+            });
+            writeFile(obj.sessionName, output)
+        }
     });
 }
-
 
 function writeFile(sessionName, output) {
     // 将斜杠替换为短横线
@@ -44,7 +51,7 @@ function writeFile(sessionName, output) {
     });
 }
 
-
-// 调用异步函数，并传入data变量作为参数
-// noinspection JSIgnoredPromiseFromCall // use a comment to suppress the inspection
-saveFile(data);
+// 调用异步函数，并传入data变量和一个日期字符串作为参数
+// noinspection JSIgnoredPromiseFromCall
+// use a comment to suppress the inspection
+saveFile(data, '2023/4/23 22:47:11');
