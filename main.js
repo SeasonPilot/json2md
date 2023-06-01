@@ -19,8 +19,18 @@ async function saveFile(exportData, dateStr) {
             // 定义一个空字符串，用于存储转换后的markdown内容
             let output = "";
 
+            if (obj.question == null) {
+                return
+            }
+
             const lines = obj.question.split('\n');
-            const text = lines[lines.length - 1];
+            let text = lines[lines.length - 1];
+            if (text.length > 100) {
+                text = text.substring(0, 100) // 从第 0 个字符开始截取到第100个字符
+            }
+
+            // 将斜杠替换为空
+            text = text.replace(/\//g, "");
 
             // 第一层循环遍历每个对象
             // 遍历导出数据中的conversationRecords数组，提取每一条对话的问题和答案
@@ -43,10 +53,12 @@ function writeFile(sessionName, question, output) {
 
     const fileName = "./chatgptbox/" + outputString + question + ".md";
 
+    // todo: 判断文件是否已经存在，如果已经存在则跳过
     fs.writeFile(fileName, output, (err) => {
         // 如果发生错误，打印错误信息
         if (err) {
-            console.error(err);
+            console.error(`fs.writeFile ERR:  ${err}`);
+            console.log(`Session name:  ${sessionName}`);
         } else {
             // 如果成功，打印成功信息
             console.log(`File saved as ${fileName}`);
@@ -57,4 +69,4 @@ function writeFile(sessionName, question, output) {
 // 调用异步函数，并传入data变量和一个日期字符串作为参数
 // noinspection JSIgnoredPromiseFromCall
 // use a comment to suppress the inspection
-saveFile(data, '2023/4/23 22:47:11');
+saveFile(data, '2023/5/1 22:47:11');
