@@ -19,7 +19,7 @@ async function saveFile(exportData, dateStr) {
             // 定义一个空字符串，用于存储转换后的markdown内容
             let output = "";
 
-            if (obj.question == null) {
+            if (obj.question == null || obj.conversationRecords.length === 0) {
                 return
             }
 
