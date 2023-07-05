@@ -66,7 +66,7 @@ function writeFile(sessionName, question, output) {
     });
 }
 
-// 调用异步函数，并传入data变量和一个日期字符串作为参数
+// 调用异步函数，并传入data变量和一个日期字符串作为参数，仅保存创建时间在日期之后的文章
 // noinspection JSIgnoredPromiseFromCall
 // use a comment to suppress the inspection
 saveFile(data, '2023/5/1 22:47:11');
