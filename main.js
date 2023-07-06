@@ -6,7 +6,9 @@ const process = require('process');
 const path = require('path');
 
 // 使用process.argv数组获取命令行参数，例如node jsonScript.js config.json
-const configFile = process.argv[2] || 'config.json';
+const configFile = 'config.json';
+
+const conversations = process.argv[2] || './conversations.json';
 // 使用path.resolve函数将相对路径转换为绝对路径，例如path.resolve(__dirname, process.argv[2])
 const configPath = path.resolve(__dirname, configFile);
 
@@ -14,7 +16,7 @@ const configPath = path.resolve(__dirname, configFile);
 const config = require(configPath);
 
 // 引入conversations.json文件，这是您导出的json数据
-const data = require(config.data);
+const data = require(conversations);
 
 // 使用config.data和config.dateStr替换原来的硬编码参数，例如saveFile(config.data, config.dateStr)
 saveFile(data, config.dateStr);
